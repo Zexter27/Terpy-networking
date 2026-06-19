@@ -2,6 +2,9 @@ from ui import *
 from scanner import *
 from storage import *
 from network_scanner import *
+from dns_tools import *
+from network_info import *
+from network_scanner import *
 
 while True:
 
@@ -32,6 +35,8 @@ while True:
         )
 
         mostrar_resultados()
+
+        mostrar_estadisticas()
 
         ruta = guardar(
             resultados
@@ -100,6 +105,64 @@ while True:
         input(
             "\nENTER para continuar..."
         )
+    elif opcion == "4":
+
+        dominio = input(
+            "\nDominio: "
+        )
+
+        consultar_dns(
+            dominio
+        )
+
+        input(
+            "\nENTER para continuar..."
+        )
+
+
+    elif opcion == "5":
+
+        archivos = listar_reportes()
+
+        if archivos:
+
+            try:
+
+                seleccion = int(
+                    input(
+                        "\nSeleccione reporte: "
+                    )
+                )
+
+                if (
+                    1 <= seleccion <=
+                    len(archivos)
+                ):
+
+                    abrir_reporte(
+                        archivos[
+                            seleccion - 1
+                        ]
+                    )
+
+            except:
+
+                print(
+                    "\nSelección inválida."
+                )
+
+        input(
+            "\nENTER para continuar..."
+        )
+
+    elif opcion == "6":
+
+        mostrar_info_red()
+
+        input(
+            "\nENTER para continuar..."
+        )
+
 
     elif opcion == "0":
 

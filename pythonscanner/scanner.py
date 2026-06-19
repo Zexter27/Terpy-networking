@@ -13,6 +13,12 @@ resultados = []
 lock = Lock()
 
 puertos_completados = 0
+host_actual = ""
+ip_actual = ""
+
+total_escaneados = 0
+
+tiempo_total = 0
 
 # ==========================
 # BARRA DE PROGRESO
@@ -202,16 +208,34 @@ def escaneo(host, puerto, total):
 def escanear(host, inicio, fin):
 
     global puertos_completados
+    global host_actual
+    global ip_actual
+    global total_escaneados
+    global tiempo_total
 
     resultados.clear()
 
     puertos_completados = 0
+
+    host_actual = host
+
+    try:
+
+        ip_actual = socket.gethostbyname(
+            host
+        )
+
+    except:
+
+        ip_actual = "No resuelta"
 
     total = (
         fin -
         inicio +
         1
     )
+
+    total_escaneados = total
 
     inicio_tiempo = (
         time.perf_counter()
@@ -233,26 +257,12 @@ def escanear(host, inicio, fin):
                 total
             )
 
-    fin_tiempo = (
+    tiempo_total = (
         time.perf_counter()
+        - inicio_tiempo
     )
 
-    duracion = (
-        fin_tiempo -
-        inicio_tiempo
-    )
-
-    print("\n")
-
-    print(
-        f"Tiempo total: "
-        f"{duracion:.2f} segundos"
-    )
-
-    print(
-        f"Puertos abiertos: "
-        f"{len(resultados)}"
-    )
+    print()
 
 # ==========================
 # TABLA DE RESULTADOS
@@ -299,4 +309,70 @@ def mostrar_resultados():
             ],
             tablefmt="fancy_grid"
         )
+    )
+
+
+def mostrar_estadisticas():
+
+    abiertos = len(
+        resultados
+    )
+
+    cerrados = (
+        total_escaneados
+        - abiertos
+    )
+
+    print()
+
+    print("=" * 60)
+
+    print(
+        "INFORMACIÓN DEL OBJETIVO"
+    )
+
+    print("=" * 60)
+
+    print()
+
+    print(
+        f"Host................: "
+        f"{host_actual}"
+    )
+
+    print(
+        f"IP..................: "
+        f"{ip_actual}"
+    )
+
+    print()
+
+    print("=" * 60)
+
+    print(
+        "ESTADÍSTICAS"
+    )
+
+    print("=" * 60)
+
+    print()
+
+    print(
+        f"Puertos escaneados..: "
+        f"{total_escaneados}"
+    )
+
+    print(
+        f"Abiertos............: "
+        f"{abiertos}"
+    )
+
+    print(
+        f"Cerrados............: "
+        f"{cerrados}"
+    )
+
+    print(
+        f"Tiempo..............: "
+        f"{tiempo_total:.2f} segundos"
     )

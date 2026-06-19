@@ -27,7 +27,6 @@ def banner():
         "             ByZexter27\n"
     )
 
-
 def menu():
 
     print(
@@ -43,6 +42,21 @@ def menu():
     print(
         Fore.GREEN +
         "[3] Escaneo LAN"
+    )
+
+    print(
+        Fore.GREEN +
+        "[4] DNS Avanzado"
+    )
+
+    print(
+        Fore.GREEN +
+        "[5] Historial"
+    )
+
+    print(
+        Fore.GREEN +
+        "[6] Información de red"
     )
 
     print(
